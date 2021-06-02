@@ -1,0 +1,21 @@
+{
+  "name": "library-mongo",
+  "version": "1.0.0",
+  "description": "Console based library management system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "debug": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Maruf Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.12.12",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
