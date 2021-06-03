@@ -1,32 +1,33 @@
-const mg = require('mongoose')
-const BookSchema = require('./schema')
-let Book = new mg.model('Book', BookSchema)
+const Book = require('./schema')
 let getAllBooks = async () => await Book.find()
-let createNewBook = async (title, authors, category,price) => {
-    let buffer = new Book({title, authors, category,price})
+let createNewBook = async (title, authors, category, price) => {
+    let buffer = new Book({title, authors, category, price})
     await buffer.save()
 }
-let deleteBook = async (title) => {
-    let instance = await Book.findOne({title}, (err) => {
-        return false
+let deleteBook = async (_id) => {
+    await Book.findOne({_id}, (err, book) => {
+        if (book) book.remove()
+        if (err) {
+            console.log(err)
+            throw Error('Error deleting book')
+        }
     })
-    if (instance) {
-        instance.remove()
-        return true
-    }
-    return false
 }
 
-let searchBookByTitle = async (query)=>{
-    let results = await Book.find()
-    // console.log(results)
-    return results.filter((res)=>res.title.toLowerCase().includes(query))
-    // console.log(filtered)
+let searchBook = async (query, by) => {
+    if (by === 'title')
+        return await Book.find({title: {$regex: query, $options: 'i'}})
+    else return await Book.find({category: query})
+}
+
+let getAllUnissuedBooks = async (ids)=>{
+    return await Book.find({_id: {$nin: ids}})
 }
 
 module.exports = {
     getAllBooks,
     createNewBook,
     deleteBook,
-    searchBook: searchBookByTitle
+    searchBook: searchBook,
+    getAllUnissuedBooks
 }

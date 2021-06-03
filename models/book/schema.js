@@ -1,24 +1,32 @@
-
 let mg = require("mongoose")
+const Issue = require("../issue/schema");
 
 const BookSchema = new mg.Schema({
     title: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        index: true
     },
-    authors:{
+    authors: {
         name: [String],
         // required: true
     },
-    category:{
+    category: {
         type: mg.SchemaTypes.ObjectId,
-        ref: 'Category'
-    },
-    price:{
-        type: Number,
+        ref: 'Category',
         required: true
+    },
+    price: {
+        type: Number,
+        required: true,
     }
-},{timestamps: true})
+}, {timestamps: true})
 
-module.exports = BookSchema
+
+BookSchema.post('remove', function (next){
+    Issue.deleteMany({book: this._id}).exec()
+})
+
+let Book = new mg.model('Book', BookSchema)
+module.exports = Book
