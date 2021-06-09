@@ -4,18 +4,22 @@
   "description": "Console based library management system",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "debug": "nodemon --inspect index.js",
+    "start": "node app.js",
+    "debug": "nodemon --inspect app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Maruf Ahmed",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "mongoose": "^5.12.12",
+    "pug": "^3.0.2",
     "readline-sync": "^1.4.10"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   }
 }

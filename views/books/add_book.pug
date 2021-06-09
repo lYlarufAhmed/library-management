@@ -1,0 +1,16 @@
+extends ../base.pug
+block content
+    div(class='container')
+        h1='Add a new book'
+        form(method='post' action='/books')
+            for field in fields
+                div(class='form-control')
+                    case field.type
+                        when 'select'
+                            select(name=field.name id=field.name)
+                                for option in field.options
+                                    option(value=option._id)=option.name
+                        default
+                            input(type=field.type name=field.name id=field.name)
+                    label(for='title')=field.name
+            button(id='add' type='submit')='Add Book'

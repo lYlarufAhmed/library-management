@@ -1,0 +1,17 @@
+head
+    title='Universal Library - #{title}'
+    block scripts
+        script(src='/js/main.js')
+    block styles
+        link(rel='stylesheet' href='/css/styles.css')
+body
+    nav
+        ul
+            li
+                a(href='/')='Home'
+            li
+                a(href='/books')='All books'
+            li
+                a(href='/books/add_book')='Add a book'
+
+    block content

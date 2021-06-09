@@ -4,15 +4,13 @@ let createNewIssue = async (member, book) => {
     await buffer.save()
 }
 let deleteIssue = async (_id) => {
-    let instance = await Issue.findOne({_id}, (err) => {
-        return false
+    await Issue.findOne({_id}, (err, issue) => {
+        if (issue) issue.remove()
+        if (err){
+            console.log(err)
+            throw Error('Error deleting Issue')
+        }
     })
-    if (instance) {
-        // console.log('found', instance)
-        instance.remove()
-        return true
-    }
-    return false
 }
 
 let closeIssue = async (_id) => {

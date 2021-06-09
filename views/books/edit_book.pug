@@ -1,0 +1,20 @@
+extends ../base.pug
+block content
+    div(class='container')
+        h1='Update Details'
+        form(method='post' action='/#{book._id}')
+            for field in fields
+                div(class='form-control')
+                    case field.type
+                        when 'select'
+                            select(name=field.name id=field.name)
+                                for option in field.options
+                                    case option.name
+                                        when book.category.name
+                                            option(value=option._id selected=true)=option.name
+                                        default
+                                            option(value=option._id)=option.name
+                        default
+                            input(type=field.type name=field.name id=field.name value=book[field.name])
+                    label(for='title')=field.name
+            button(id='add' type='submit')='Update!'

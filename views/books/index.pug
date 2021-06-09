@@ -1,0 +1,14 @@
+extends ../base.pug
+block content
+    div(class='container')
+        h3='Available books'
+        div(class='books')
+            for book of books
+                div(class='book')
+                    p=book.title
+                    p=book.authors.name.join(',')
+                    p=book.category.name
+                    a(href='/books/'+book._id)='Edit'
+                    br
+                    a(href='/books' onclick='deleteBook(\''+book._id+'\')')='Delete'
+                    hr
