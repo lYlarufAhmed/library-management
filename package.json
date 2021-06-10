@@ -2,7 +2,7 @@
   "name": "library-mongo",
   "version": "1.0.0",
   "description": "Console based library management system",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "debug": "nodemon --inspect app.js",
