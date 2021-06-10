@@ -3,7 +3,6 @@ const {deleteBook, createNewBook} = require("../models");
 const {getAllBooks, getAllCategories, getBook} = require("../models");
 const router = express.Router()
 
-router.use(express.urlencoded({extended: true}))
 router.route('/api').get(async (req, res) => {
 
 

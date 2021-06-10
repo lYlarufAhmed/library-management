@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const bookRoutes = require('./routes/books')
+const authRoutes = require('./routes/auth')
 const cors = require('cors')
 
 
@@ -11,7 +12,11 @@ app.use(morgan('dev'))
 app.use(express.static('static'))
 app.use(cors())
 app.set('view engine', 'pug')
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+
 app.use('/books', bookRoutes)
+app.use('/auth', authRoutes)
 
 app.get('/', (req, res) => {
     // res.send('Hello World!')

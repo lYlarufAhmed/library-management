@@ -1,4 +1,6 @@
 const mg = require('mongoose')
+const {checkHash} = require("./user/controllers");
+const {getUsers} = require("./user/controllers");
 const {getAllBooks, createNewBook, deleteBook, searchBook, getBook} = require('./book/controllers')
 const {
     getAllCategories,
@@ -21,5 +23,5 @@ createConnection()
 module.exports =
     {
         getAllBooks, createNewBook, deleteBook, searchBook, getAllCategories,
-        getBook
+        getBook, createNewBook, getUsers, checkHash
     }
