@@ -11,7 +11,7 @@ const {
 
 async function createConnection() {
     console.log('Welcome to my library')
-    await mg.connect('mongodb://127.0.0.1:27017/library', {
+    await mg.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true
@@ -23,5 +23,5 @@ createConnection()
 module.exports =
     {
         getAllBooks, createNewBook, deleteBook, searchBook, getAllCategories,
-        getBook, createNewBook, getUsers, checkHash
+        getBook, createNewBook, getUsers
     }

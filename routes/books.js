@@ -1,8 +1,10 @@
 const express = require('express')
 const {deleteBook, createNewBook} = require("../models");
 const {getAllBooks, getAllCategories, getBook} = require("../models");
+const {verifyBearerHeader} = require('../middlewares')
 const router = express.Router()
 
+router.use(verifyBearerHeader)
 router.route('/api').get(async (req, res) => {
 
 
