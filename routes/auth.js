@@ -6,7 +6,6 @@ const router = express.Router()
 
 const multer = require('multer')
 const refreshTokens = [
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ldGFAdGVzLmNvbSIsImlhdCI6MTYyMzc1NTU1NCwiZXhwIjoxNjI0MzYwMzU0fQ.TA8mxox11KZwufaoxtXLntnZHbqfVFi4zcxE7jnJClA",
 ]
 
 // const multipart = multer()
@@ -62,10 +61,10 @@ router.route('/verify')
                     // iat: Date.now()
                 }
                 console.log(payload)
-                let token = jwt.sign(payload, process.env.APP_SECRET,
+                let token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET,
                     {expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN})
                 status.accessToken = token
-                let refresh_token = jwt.sign(payload, process.env.APP_SECRET,
+                let refresh_token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET,
                     {expiresIn: process.env.REFRESH_TOKEN_REFRESH_EXPIRES_IN})
                 console.log(token, refresh_token)
                 status.refreshToken = refresh_token
@@ -85,21 +84,21 @@ router.route('/token').post(async (req, res) => {
     console.log(req.body)
     //verify refresh token
     // if its in the database and is valid
-    let refreshToken = req.body
+    let refreshToken = req.body.refresh_token
     if (refreshTokens.includes(refreshToken)) {
         try {
             let data = jwt.verify(refreshToken, process.env.APP_SECRET)
             console.log(data)
-            let loggedInUser = jwt.sign({email: data.email}, process.env.APP_SECRET,
+            let accessToken = jwt.sign({email: data.email}, process.env.APP_SECRET,
                 {expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN})
 
-            res.status(200).send({success: true, loggedInUser})
+            res.status(200).send({success: true, accessToken})
         } catch (e) {
             console.log(e)
             res.status(403).send({success: false, message: e.message})
         }
     } else {
-        res.status(403).send({success: false, message: 'Refresh token expired!'})
+        res.status(401).send({success: false, message: 'Refresh token invalid!'})
     }
     res.send()
 })
