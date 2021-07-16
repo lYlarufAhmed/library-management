@@ -51,7 +51,6 @@ router.route('/verify')
         console.log(req.body)
         let status
         try {
-
             status = await logInUser(req.body.email, req.body.password)
             if (status.success) {
                 res.statusCode = 200
@@ -87,9 +86,9 @@ router.route('/token').post(async (req, res) => {
     let refreshToken = req.body.refresh_token
     if (refreshTokens.includes(refreshToken)) {
         try {
-            let data = jwt.verify(refreshToken, process.env.APP_SECRET)
+            let data = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
             console.log(data)
-            let accessToken = jwt.sign({email: data.email}, process.env.APP_SECRET,
+            let accessToken = jwt.sign({email: data.email}, process.env.ACCESS_TOKEN_SECRET,
                 {expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN})
 
             res.status(200).send({success: true, accessToken})
@@ -98,7 +97,7 @@ router.route('/token').post(async (req, res) => {
             res.status(403).send({success: false, message: e.message})
         }
     } else {
-        res.status(401).send({success: false, message: 'Refresh token invalid!'})
+        res.status(403).send({success: false, message: 'Refresh token invalid!'})
     }
     res.send()
 })
